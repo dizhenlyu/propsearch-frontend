@@ -2,7 +2,8 @@ import { useRouter } from "next/router";
 import Query from "../components/query";  
 import GET_COUNTY_PROPERTIES from "../apollo/queries/county/properties";
 import { compose } from "recompose";
-// import defaultPage from "../hocs/defaultPage";
+import securePage from "../hocs/securePage";
+import Link from '../src/Link';
 
 const County = (props) => {  
   const router = useRouter();
@@ -10,10 +11,6 @@ const County = (props) => {
   const {
     isAuthenticated
   } = props;
-
-  const addItem = (item) => {
-    context.addItem(item);
-  }
 
   return (
     <Query query={GET_COUNTY_PROPERTIES} id={router.query.id}>
@@ -23,7 +20,18 @@ const County = (props) => {
           <h1>{county.name}</h1>
               <div>
                 {county.properties.map(res => (
-                  <div>{res.property_address}</div>
+                  <div>
+                    <div>{res.property_address}</div>
+                    <Link
+                      href={{
+                        pathname: "property",
+                        query: { id: res.id, address: res.property_address }
+                      }}
+                      // as={`/property/${res.property_address}`}
+                    >
+                      <a>View</a>
+                    </Link>
+                  </div>
                 ))}
             </div>
           </>
@@ -33,5 +41,4 @@ const County = (props) => {
   );
 };
 
-// export default defaultPage(County);
-export default County;
+export default securePage(County);

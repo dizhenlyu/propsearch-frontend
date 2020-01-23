@@ -6,6 +6,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../src/theme';
 import withData from "../utils/apollo";
+import Layout from "../components/Layout";
 
 class MyApp extends App {
 
@@ -30,7 +31,7 @@ class MyApp extends App {
   }
 
   render() {
-    const { Component, pageProps, apollo } = this.props;
+    const { Component, pageProps, apollo, isAuthenticated } = this.props;
 
     return (
       <React.Fragment>
@@ -42,7 +43,9 @@ class MyApp extends App {
           <ThemeProvider theme={theme}>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
-            <Component {...pageProps} />
+            <Layout isAuthenticated={isAuthenticated} {...pageProps}>
+              <Component {...pageProps} />
+            </Layout>
           </ThemeProvider>
         </ApolloProvider>
       </React.Fragment>
