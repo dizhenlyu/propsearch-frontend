@@ -19,6 +19,7 @@ const Property = (props) => {
           <>
           <h1>{property.property_address}</h1>
           <p>{property.property_id}</p>
+          <p>{property.auction_id}</p>
           </>
         );
       }}

@@ -3,7 +3,6 @@ import { withStyles } from '@material-ui/core/styles';
 import { Box, Container, AppBar, Toolbar, Typography, IconButton } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import FavoriteIcon from '@material-ui/icons/Favorite';
 import Link from "../src/Link";
 import { unsetToken } from "../lib/auth";
 import defaultPage from "../hocs/defaultPage";
@@ -44,7 +43,7 @@ class Layout extends React.Component {
     return { pageProps, isAuthenticated };
   }
   render() {
-    const { classes, isAuthenticated, children } = this.props;
+    const { classes, isAuthenticated, children, loggedUser } = this.props;
 
     return (
       <Box className={classes.root}>
@@ -68,13 +67,20 @@ class Layout extends React.Component {
 
             {isAuthenticated ? (
               <>
-                <span style={{ color: "black", marginRight: 30 }}>
-                  <AccountCircle />
-                  {this.props.loggedUser}
-                </span>
-                <IconButton>
-                  <FavoriteIcon />
-                </IconButton>
+                <Link
+                  href={{
+                    pathname: "user",
+                    query: { id: loggedUser.userid }
+                  }}
+                >
+                  <span style={{ color: "black", marginRight: 30 }}>
+                    <IconButton>
+                      <AccountCircle />
+                    </IconButton>                
+                    {loggedUser.username}
+                  </span>
+                </Link>
+
                 <Link href="/">
                   <a className="logout" onClick={unsetToken}>
                     Logout

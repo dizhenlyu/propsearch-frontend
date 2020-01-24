@@ -9,9 +9,8 @@ export default Page =>
       const loggedUser = process.browser
         ? getUserFromLocalCookie()
         : getUserFromServerCookie(req);
-      const pageProps = Page.getInitialProps && Page.getInitialProps(req);
-      console.log("is authenticated");
       console.log(loggedUser);
+      const pageProps = Page.getInitialProps && Page.getInitialProps(req);
       let path = req ? req.pathname : "";
       path = "";
       return {

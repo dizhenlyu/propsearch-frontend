@@ -27,10 +27,9 @@ const County = (props) => {
                         pathname: "property",
                         query: { id: res.id, address: res.property_address }
                       }}
-                      // as={`/property/${res.property_address}`}
                     >
                       <a>View</a>
-                    </Link>
+                    </Link> 
                   </div>
                 ))}
             </div>
@@ -40,5 +39,9 @@ const County = (props) => {
     </Query>
   );
 };
+
+County.addToList = (listname, property) => {
+
+}
 
 export default securePage(County);
