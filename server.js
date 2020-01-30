@@ -19,8 +19,16 @@ app.prepare()
     //     console.log(data)
     //     res.json(data);
     // })
-    scrapeIt('https://www.homefacts.com/address/Indiana/St.-Joseph-County/South-Bend/46614/19540-Pulling-St/212333813.html', {
-      price: "#forsale-listing-price"
+    // scrapeIt('https://www.homefacts.com/address/Indiana/St.-Joseph-County/South-Bend/46614/19540-Pulling-St/212333813.html', {
+    //   price: "#forsale-listing-price"
+    // }).then(({ data, response }) => {
+    //   console.log(response)
+    //     console.log(response.statusCode)
+    //     console.log(data)
+    //     res.json(data);
+    // })
+    scrapeIt('https://www.xome.com/realestate/19540-pulling-st-south-bend-in-46614', {
+      price: ".xome-value-estimate"
     }).then(({ data, response }) => {
       console.log(response)
         console.log(response.statusCode)
