@@ -25,8 +25,9 @@ const County = (props) => {
                     <Link
                       href={{
                         pathname: "property",
-                        query: { id: res.id, address: res.property_address }
+                        query: { id: res.id }
                       }}
+                      as={`/property/${res.id}`}
                     >
                       <a>View</a>
                     </Link> 

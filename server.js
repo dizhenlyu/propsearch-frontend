@@ -12,17 +12,19 @@ app.prepare()
 		const server = express()
 
 		server.get('/test', (req, res) => {
-			// const actualPage = '/restaurants'
-			// const queryParams = { id: req.params.id }
-			// console.dir("req.params.id = " + JSON.stringify(req.params.id))
-      // app.render(req, res, actualPage, queryParams)
       scrapeIt('https://www.homes.com/property/19540-pulling-st-south-bend-in-46614/id-600034304784/', {
         price: ".home-estimate > .price"
     }).then(({ data, response }) => {
         console.log(`Status Code: ${response.statusCode}`)
         console.log(data)
+        res.json(data);
     })
-      return handle(req, res)
+		})
+
+		server.get('/property/:id', (req, res) => {
+      const actualPage = '/property'
+      const queryParams = { id: req.params.id }
+      app.render(req, res, actualPage, queryParams)
 		})
 
 		server.get('*', (req, res) => {

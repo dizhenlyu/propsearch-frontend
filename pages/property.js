@@ -4,6 +4,7 @@ import GET_SINGLE_PROPERTY from "../apollo/queries/property/property";
 import { compose } from "recompose";
 import securePage from "../hocs/securePage";
 import Link from '../src/Link';
+import fetch from 'isomorphic-unfetch';
 
 const Property = (props) => {  
   const router = useRouter();
@@ -26,6 +27,17 @@ const Property = (props) => {
       }}
     </Query>
   );
+};
+
+Property.getInitialProps = async function() {
+  const res = await fetch('http://localhost:3000/test');
+  const data = await res.json();
+
+  console.log(`Show data fetched. Count: ${data.price}`);
+
+  return {
+    data: data
+  };
 };
 
 export default securePage(Property);
