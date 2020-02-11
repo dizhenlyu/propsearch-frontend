@@ -8,6 +8,8 @@ query County($id: ID!) {
     properties {
       id
       property_address
+      property_id
+      auction_id
     }
   }
 }
