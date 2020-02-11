@@ -38,7 +38,7 @@ const County = (props) => {
         </Link>
       },
       { title: 'Property ID', field: 'property_id' },
-      { title: 'Auction ID', field: 'auction_id', type: 'numeric' },
+      { title: 'Auction ID', field: 'auction_id' },
     ]
     
   });
@@ -59,6 +59,18 @@ const County = (props) => {
                 options={{
                   exportButton: true
                 }}
+                actions={[
+                  {
+                    icon: 'save',
+                    tooltip: 'Save User',
+                    onClick: (event, rowData) => alert("You saved " + rowData.property_address)
+                  },
+                  {
+                    icon: 'delete',
+                    tooltip: 'Delete User',
+                    onClick: (event, rowData) => confirm("You want to delete " + rowData.property_address)
+                  }
+                ]}
               />
             </div>
           </>
