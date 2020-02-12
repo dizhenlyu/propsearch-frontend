@@ -6,6 +6,9 @@ import securePage from "../hocs/securePage";
 import Link from '../src/Link';
 import MaterialTable from 'material-table'
 import { withStyles } from '@material-ui/core/styles';
+import Strapi from "strapi-sdk-javascript/build/main";
+const apiUrl = process.env.API_URL || "http://localhost:1337";
+const strapi = new Strapi(apiUrl);
 
 const styles = theme => ({
   propertyTable: {
@@ -19,7 +22,8 @@ const County = (props) => {
 
   const {
     isAuthenticated,
-    classes
+    classes,
+    loggedUser
   } = props;
 
   const [state, setState] = React.useState({
@@ -43,6 +47,18 @@ const County = (props) => {
     
   });
   
+  const addUserToPropertyUsersFavorites = (property) => {
+    const user_added = property.users_favorites.map(a => a.userid)
+    user_added.push(loggedUser.userid);
+    const data = {
+          users_favorites : user_added,
+        }
+    strapi.updateEntry('properties', property.id, data ).then(res => {
+      alert("You saved " + property.property_address + " to Favorite list!")
+    });
+
+  }; 
+
   return (
     <Query query={GET_COUNTY_PROPERTIES} id={router.query.id}>
       {({ data: { county } }) => {
@@ -63,7 +79,7 @@ const County = (props) => {
                   {
                     icon: 'save',
                     tooltip: 'Save User',
-                    onClick: (event, rowData) => alert("You saved " + rowData.property_address)
+                    onClick: (event, rowData) => addUserToPropertyUsersFavorites(rowData)
                   },
                   {
                     icon: 'delete',

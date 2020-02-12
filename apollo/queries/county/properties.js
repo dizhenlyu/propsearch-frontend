@@ -10,6 +10,9 @@ query County($id: ID!) {
       property_address
       property_id
       auction_id
+      users_favorites {
+        id
+      }
     }
   }
 }
