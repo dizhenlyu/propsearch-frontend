@@ -44,7 +44,6 @@ const County = (props) => {
       { title: 'Property ID', field: 'property_id' },
       { title: 'Auction ID', field: 'auction_id' },
     ]
-    
   });
   
   const addUserToPropertyUsersFavorites = (property) => {
@@ -80,11 +79,6 @@ const County = (props) => {
                     icon: 'save',
                     tooltip: 'Save User',
                     onClick: (event, rowData) => addUserToPropertyUsersFavorites(rowData)
-                  },
-                  {
-                    icon: 'delete',
-                    tooltip: 'Delete User',
-                    onClick: (event, rowData) => confirm("You want to delete " + rowData.property_address)
                   }
                 ]}
               />

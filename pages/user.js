@@ -10,6 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import PropTypes from 'prop-types';
+import MaterialTable from 'material-table'
 
 const apiUrl = process.env.API_URL || "http://localhost:1337";
 const strapi = new Strapi(apiUrl);
@@ -22,17 +23,36 @@ const User = (props) => {
   } = props;
 
   const [state, setState] = React.useState({
-    value: 0
-  })
+    value: 0,
+  });
+
+  const columns = [
+    { 
+      title: 'Property Address', 
+      field: 'property_address',
+      render: rowData => <Link
+        href={{
+          pathname: "property",
+          query: { id: rowData.id }
+        }}
+        as={`/property/${rowData.id}`}
+      >
+        <a>{rowData.property_address}</a>
+      </Link>
+    },
+    { title: 'Property ID', field: 'property_id' },
+    { title: 'Auction ID', field: 'auction_id' },
+  ];
 
   const handleTabChange = (event, value) => {
     setState({ value });
   };
 
-  const removePropertyFromFavorites = (user, pid) => {
-    user.favorites = user.favorites.filter( el => el.id !== pid ); 
+  const removePropertyFromFavorites = (user, property) => {
+    user.favorites = user.favorites.filter( el => el.id !== property.id ); 
     strapi.updateEntry('users', user.id, user ).then(res => {
-      
+      alert("You removed " + property.property_address + " from Favorite list!");
+      window.location.reload();
     });
     // console.log(user)
     // const data = {
@@ -58,31 +78,81 @@ const User = (props) => {
               textColor="primary"
               centered
             >
-              <Tab label="Favorites" />
-              <Tab label="Item Two" />
-              <Tab label="Item Three" />
+              <Tab label="Up for Review" />
+              <Tab label="Favorite" />
+              <Tab label="Site Investigation" />
+              <Tab label="Up for Bidding" />
+              <Tab label="Portfolio" />
+
             </Tabs>
-              {state.value === 0 && <div>
-                  <h2>Favorites</h2>
-                    {user.favorites.map(res => (
-                      <div>
-                        <div>{res.property_address}</div>
-                        <Link
-                          href={{
-                            pathname: "property",
-                            query: { id: res.id, address: res.property_address }
-                          }}
-                        >
-                          <a>View</a>
-                        </Link>
-                        <button onClick={e => removePropertyFromFavorites(user, res.id)}>Remove</button>
-                      </div>
-                    ))}
-                </div>}
-                {state.value === 1 && <div>
-                  <h2>2</h2>
-                  </div>
-                }
+            {state.value === 0 && <div>
+              {/* <div>
+                <MaterialTable
+                  title='Up For Reviews'
+                  columns={state.columns}
+                  data={user.up_for_reviews}
+                  options={{
+                    exportButton: true
+                  }}
+                  actions={[
+                    {
+                      icon: 'delete',
+                      tooltip: 'Remove Property',
+                      onClick: (event, rowData) => removePropertyFromFavorites(user, rowData)
+                    }
+                  ]}
+                />
+              </div> */}
+            </div>
+            }
+            {state.value === 1 && <div>
+              <div>
+                <MaterialTable
+                  title='Favorites'
+                  columns={columns}
+                  data={user.favorites}
+                  options={{
+                    exportButton: true
+                  }}
+                  actions={[
+                    {
+                      icon: 'delete',
+                      tooltip: 'Remove Property',
+                      onClick: (event, rowData) => removePropertyFromFavorites(user, rowData)
+                    }
+                  ]}
+                />
+              </div>
+
+              {/* <h2>Favorites</h2>
+              {user.favorites.map(res => (
+                <div>
+                  <div>{res.property_address}</div>
+                  <Link
+                    href={{
+                      pathname: "property",
+                      query: { id: res.id, address: res.property_address }
+                    }}
+                  >
+                    <a>View</a>
+                  </Link>
+                  <button onClick={e => removePropertyFromFavorites(user, res.id)}>Remove</button>
+                </div>
+                ))} */}
+              </div>
+              }
+              {state.value === 2 && <div>
+                <h2>3</h2>
+              </div>
+              }
+              {state.value === 3 && <div>
+                <h2>4</h2>
+              </div>
+              }
+              {state.value === 4 && <div>
+                <h2>5</h2>
+              </div>
+              }
             </Paper>
           </>
         );

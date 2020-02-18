@@ -69,7 +69,7 @@ class Layout extends React.Component {
               <>
                 <Link
                   href={{
-                    pathname: "user",
+                    pathname: "/user",
                     query: { id: loggedUser.userid }
                   }}
                 >

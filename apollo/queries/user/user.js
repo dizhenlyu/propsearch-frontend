@@ -8,6 +8,8 @@ const GET_SINGLE_USER = gql`
       favorites {
         id
         property_address
+        property_id
+        auction_id
       }
     }
   }
