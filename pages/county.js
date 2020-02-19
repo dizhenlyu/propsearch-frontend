@@ -90,8 +90,4 @@ const County = (props) => {
   );
 };
 
-County.addToList = (listname, property) => {
-
-}
-
 export default compose(securePage, withStyles(styles, { withTheme: true }))(County);
