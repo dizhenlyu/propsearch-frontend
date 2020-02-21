@@ -9,7 +9,13 @@ query County($id: ID!) {
       id
       property_address
       property_id
+      land_or_building
       auction_id
+      min_bid
+      xome_estimate
+      homes_estimate
+      homefacts_estimate
+      average_estimate
       users_favorites {
         id
       }

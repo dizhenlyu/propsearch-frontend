@@ -47,7 +47,25 @@ const County = (props) => {
         </Link>
       },
       { title: 'Property ID', field: 'property_id' },
+      { title: 'Land / Building', field: 'land_or_building' },
       { title: 'Auction ID', field: 'auction_id' },
+      { title: 'Min. Bid', field: 'min_bid' },
+      { title: 'Xome', 
+        field: 'xome_estimate',
+        render: rowData => formatCurrency(rowData.xome_estimate)
+      },
+      { title: 'Homes', 
+        field: 'homes_estimate',
+        render: rowData => formatCurrency(rowData.homes_estimate)
+      },
+      { title: 'Homefacts', 
+        field: 'homefacts_estimate',
+        render: rowData => formatCurrency(rowData.homefacts_estimate)
+      },
+      { title: 'Average', 
+        field: 'average_estimate',
+        render: rowData => formatCurrency(rowData.average_estimate)
+      },
     ]
   });
 
@@ -71,10 +89,13 @@ const County = (props) => {
     });
   }; 
 
+  const formatCurrency = (number) => {
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(number)
+  }
+
   return (
     <Query query={GET_COUNTY_PROPERTIES} id={router.query.id}>
       {({ data: { county } }) => {
-        console.log(county.properties)
         return (
           <>
             <div                
@@ -85,12 +106,15 @@ const County = (props) => {
                 columns={state.columns}
                 data={county.properties}
                 options={{
-                  exportButton: true
+                  exportButton: true,
+                  fixedColumns: {
+                    left: 1
+                  }
                 }}
                 actions={[
                   {
                     icon: 'save',
-                    tooltip: 'Save User',
+                    tooltip: 'Save to Favorites',
                     onClick: (event, rowData) => addUserToPropertyUsersFavorites(rowData)
                   }
                 ]}
