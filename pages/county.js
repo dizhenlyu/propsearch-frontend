@@ -6,6 +6,9 @@ import securePage from "../hocs/securePage";
 import Link from '../src/Link';
 import MaterialTable from 'material-table'
 import { withStyles } from '@material-ui/core/styles';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
 import Strapi from "strapi-sdk-javascript/build/main";
 const apiUrl = process.env.API_URL || "http://localhost:1337";
 const strapi = new Strapi(apiUrl);
@@ -26,6 +29,8 @@ const County = (props) => {
     loggedUser
   } = props;
 
+  const [message, setMessage] = React.useState('');
+  const [open, setOpen] = React.useState(false);
   const [state, setState] = React.useState({
     columns: [
       { 
@@ -45,7 +50,15 @@ const County = (props) => {
       { title: 'Auction ID', field: 'auction_id' },
     ]
   });
-  
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   const addUserToPropertyUsersFavorites = (property) => {
     const user_added = property.users_favorites.map(a => a.userid)
     user_added.push(loggedUser.userid);
@@ -53,9 +66,9 @@ const County = (props) => {
           users_favorites : user_added,
         }
     strapi.updateEntry('properties', property.id, data ).then(res => {
-      alert("You saved " + property.property_address + " to Favorite list!")
+      setMessage("You saved " + property.property_address + " to Favorite list!")
+      setOpen(true);
     });
-
   }; 
 
   return (
@@ -83,6 +96,16 @@ const County = (props) => {
                 ]}
               />
             </div>
+            <Snackbar 
+              open={open} 
+              autoHideDuration={6000} 
+              onClose={handleClose}
+              anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            >
+              <MuiAlert elevation={6} variant="filled" onClose={handleClose} severity="success">
+                {message}
+              </MuiAlert>
+            </Snackbar>
           </>
         );
       }}
