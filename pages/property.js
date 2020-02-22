@@ -32,10 +32,19 @@ const Property = props => {
   return (
     <Query query={GET_SINGLE_PROPERTY} id={property_id}>
       {({ data: { property } }) => {
+        console.log(property);
         return (
           <>
           <Paper>
             <h1>{property.property_address}</h1>
+            <Link
+              href={{
+                pathname: "/county",
+                query: { id: property.county.id }
+              }}
+            >
+              {property.county.name}
+            </Link>
             <p>{property.property_id}</p>
             <p>{property.auction_id}</p>
             {( estimates && 
@@ -50,7 +59,7 @@ const Property = props => {
             <Link
               href={property.photo_link}
             >
-              <a>View on Google Map</a>
+              View on Google Map
             </Link>
           </Paper>
           <br />
@@ -76,6 +85,8 @@ Property.getInitialProps = async function(req) {
   }
   strapi.updateEntry('properties', property_id, data ).then(res => {
 
+  }).catch(err => {
+    console.log('here')
   });
   return {     
     estimates,

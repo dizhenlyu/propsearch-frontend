@@ -16,6 +16,9 @@ query County($id: ID!) {
       homes_estimate
       homefacts_estimate
       average_estimate
+      users_up_for_reviews {
+        id
+      }
       users_favorites {
         id
       }
